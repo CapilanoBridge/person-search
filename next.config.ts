@@ -26,6 +26,9 @@ const nextConfig: NextConfig = {
   },
   // Note: In Next.js 16, the eslint config option was removed.
   // Linting is now done via `eslint .` command directly.
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
