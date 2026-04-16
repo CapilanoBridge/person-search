@@ -268,6 +268,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## Contact
 
-Callum Bir - [@callumbir](https://twitter.com/callumbir)  
-Project Link: [https://github.com/gocallum/person-search](https://github.com/gocallum/person-search)  
+Dylan Mylz - [@dylanmylz](https://twitter.com/dylanmylz)  
+Project Link: [https://github.com/dylanmylz/person-search](https://github.com/dylanmylz/person-search)  
 

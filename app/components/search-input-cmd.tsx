@@ -21,15 +21,18 @@ export default function SearchInput() {
   }, [])
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <SearchCommand<User>
-        onSearch={handleSearch}
-        onItemSelect={handleSelect}
-        getItemId={(user) => user.id}
-        getItemLabel={(user) => user.name}
-        placeholder="Search users..."
-        noResultsText="No users found."
-      />
+    <div className="w-full">
+      <div className="p-6 rounded-xl bg-gradient-to-br from-slate-900 to-slate-800 border border-blue-500/30 backdrop-blur-sm">
+        <h3 className="text-lg font-bold text-slate-100 mb-4">🔍 Search People</h3>
+        <SearchCommand<User>
+          onSearch={handleSearch}
+          onItemSelect={handleSelect}
+          getItemId={(user) => user.id}
+          getItemLabel={(user) => user.name}
+          placeholder="Type a name to search..."
+          noResultsText="No users found."
+        />
+      </div>
     </div>
   )
 }

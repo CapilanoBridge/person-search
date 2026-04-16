@@ -1,11 +1,9 @@
-//app/actions/actions.ts
-
 'use server'
 
 import { revalidatePath } from 'next/cache'
 import { User, userSchema } from './schemas'
-import { cache } from 'react'
 
+// ========== MOCK DATA ==========
 const users: User[] = [
     { id: '1', name: 'John Doe', phoneNumber: '0412345678', email: 'john@example.com' },
     { id: '2', name: 'Jane Smith', phoneNumber: '0423456789', email: 'jane@example.com' },
@@ -20,14 +18,12 @@ const users: User[] = [
 ]
 
 export async function searchUsers(query: string): Promise<User[]> {
-    console.log('Searching users with query:', query)
     const results = users.filter(user => user.name.toLowerCase().startsWith(query.toLowerCase()))
-    console.log('Search results:', results) 
     return results
 }
 
 export async function addUser(data: Omit<User, 'id'>): Promise<User> {
-    const newId = crypto.randomUUID();
+    const newId = crypto.randomUUID()
     const newUser = { ...data, id: newId }
     const validatedUser = userSchema.parse(newUser)
     users.push(validatedUser)
@@ -36,33 +32,51 @@ export async function addUser(data: Omit<User, 'id'>): Promise<User> {
 
 export async function deleteUser(id: string): Promise<void> {
     const index = users.findIndex(user => user.id === id)
-    if (index === -1) {
-        throw new Error(`User with id ${id} not found`)
-    }
+    if (index === -1) throw new Error(`User with id ${id} not found`)
     users.splice(index, 1)
-    console.log(`User with id ${id} has been deleted.`)
-    revalidatePath('/') // Revalidate the page or component path
-
+    revalidatePath('/')
 }
 
 export async function updateUser(id: string, data: Partial<Omit<User, 'id'>>): Promise<User> {
     const index = users.findIndex(user => user.id === id)
-    if (index === -1) {
-        throw new Error(`User with id ${id} not found`)
-    }
-
-    const existingUser = users[index]
-    const updatedUser = { ...existingUser, ...data }
-    const validatedUser = userSchema.parse(updatedUser) // Ensure the updated data adheres to schema
-
+    if (index === -1) throw new Error(`User with id ${id} not found`)
+    const updatedUser = { ...users[index], ...data }
+    const validatedUser = userSchema.parse(updatedUser)
     users[index] = validatedUser
-    console.log(`User with id ${id} has been updated.`)
-    revalidatePath('/') // Revalidate the page or component path
-
+    revalidatePath('/')
     return validatedUser
 }
 
-export const getUserById = cache(async (id: string) => {
-    const user = users.find(user => user.id === id)
+export async function getUserById(id: string): Promise<User | null> {
+    const user = users.find(u => u.id === id)
     return user || null
-})
+}
+
+export async function getUsers(): Promise<User[]> {
+    return users
+}
+
+// ========== PRISMA / NEON ==========
+export async function createPerson(data: { name: string; email: string }) {
+    const { prisma } = await import('@/lib/prisma')
+    await prisma.person.create({
+        data: {
+            name: data.name,
+            email: data.email,
+        },
+    })
+    revalidatePath('/')
+}
+
+export async function getPeople() {
+    const { prisma } = await import('@/lib/prisma')
+    return await prisma.person.findMany({
+        orderBy: { createdAt: 'desc' },
+    })
+}
+
+export async function deletePerson(id: number) {
+    const { prisma } = await import('@/lib/prisma')
+    await prisma.person.delete({ where: { id } })
+    revalidatePath('/')
+}

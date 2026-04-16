@@ -32,11 +32,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
     >          
 
-<ThemeProvider
+        <ThemeProvider
             attribute="class"
             defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
           >
 
         <Navbar />
@@ -46,10 +44,9 @@ export default function RootLayout({
         <Toaster />
 
         <Footer />
-        </ThemeProvider>
-
+      </ThemeProvider>
     </body>
-
-  </html>  );
+  </html>
+  );
 }
 

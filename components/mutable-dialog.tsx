@@ -5,6 +5,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useForm, UseFormReturn, FieldValues, DefaultValues } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -49,24 +50,7 @@ export default function MutableDialog<T extends FieldValues>({
   const [open, setOpen] = useState(false);
 
   const form = useForm<T>({
-    resolver: async (values) => {
-      try {
-        console.log('Form values before validation:', values); // Log the form values before validation
-        const result = formSchema.parse(values);
-        console.log('Validation passed:', result); // Log the result after validation
-        return { values: result, errors: {} };
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-       catch (err: any) {
-        if (err.formErrors?.fieldErrors) {
-          // check if err is instance of ZodError then return the formErrors
-          console.log('Validation errors:',  err.formErrors.fieldErrors); // Log the validation errors
-          return { values: {}, errors: err.formErrors.fieldErrors };
-        }
-        console.error('Unexpected validation error:', err);
-        return { values: {}, errors: {} };
-      }
-    },
+    resolver: zodResolver(formSchema),
     defaultValues: defaultValues,
   });
 
@@ -110,21 +94,25 @@ export default function MutableDialog<T extends FieldValues>({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button >{triggerButtonLabel}</Button>
+        <Button className="bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-900 font-bold px-6 py-2 hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-105">
+          {triggerButtonLabel}
+        </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-gradient-to-br from-slate-900 to-slate-800 border border-blue-500/30 backdrop-blur-sm">
         <DialogHeader>
-          <DialogTitle>{defaultValues ? editDialogTitle : addDialogTitle}</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-slate-100">{defaultValues ? editDialogTitle : addDialogTitle}</DialogTitle>
+          <DialogDescription className="text-slate-400">
             {dialogDescription}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <FormComponent form={form} />
           <div className="mt-4">
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setOpen(false)}>Close</Button>
-              <Button type="submit">{submitButtonLabel}</Button>
+            <DialogFooter className="gap-2">
+              <Button type="button" variant="outline" onClick={() => setOpen(false)} className="bg-slate-800 border-blue-500/30 text-slate-300 hover:bg-slate-700 hover:text-slate-100">Close</Button>
+              <Button type="submit" className="bg-gradient-to-r from-blue-500 to-cyan-400 text-slate-900 font-semibold hover:shadow-lg hover:shadow-cyan-500/50">
+                {submitButtonLabel}
+              </Button>
             </DialogFooter>
           </div>
         </form>
