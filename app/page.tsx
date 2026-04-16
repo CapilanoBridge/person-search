@@ -3,6 +3,13 @@ import { TechnicalOverview } from './components/technical-overview';
 import { UserDialog } from './components/user-dialog';
 import { getPeople, createPerson, deletePerson } from './actions/actions';
 
+type Person = {
+  id: number;
+  name: string;
+  email: string;
+  createdAt: Date;
+};
+
 export const dynamic = 'force-dynamic'
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ userId?: string }> }) {
@@ -98,7 +105,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ u
                 </div>
               ) : (
                 <ul className="space-y-3">
-                  {people.map((person) => (
+                  {people.map((person: Person) => (
                     <li
                       key={person.id}
                       className="flex justify-between items-center bg-gradient-to-br from-slate-800 to-slate-900 border border-blue-500/20 p-4 rounded-lg hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 hover:border-cyan-500/50 group"
