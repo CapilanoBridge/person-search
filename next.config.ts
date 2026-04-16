@@ -3,13 +3,10 @@ import path from 'path';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  experimental: {
-    // In Next.js 15, turbopack config is under experimental.turbo
-    turbo: {
-      // Resolve modules using Node.js resolution
-      resolveAlias: {
-        // Add any custom aliases here if needed
-      }
+  turbopack: {
+    // Resolve modules using Node.js resolution
+    resolveAlias: {
+      // Add any custom aliases here if needed
     }
   },
   webpack: (config, { isServer }) => {
