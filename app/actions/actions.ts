@@ -80,3 +80,15 @@ export async function deletePerson(id: number) {
     await prisma.person.delete({ where: { id } })
     revalidatePath('/')
 }
+
+export async function updatePerson(id: number, data: { name: string; email: string }) {
+    const { prisma } = await import('@/lib/prisma')
+    await prisma.person.update({
+        where: { id },
+        data: {
+            name: data.name,
+            email: data.email,
+        },
+    })
+    revalidatePath('/')
+}

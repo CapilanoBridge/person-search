@@ -1,7 +1,7 @@
 import UserSearch from './components/user-search';
 import { TechnicalOverview } from './components/technical-overview';
 import { UserDialog } from './components/user-dialog';
-import { getPeople, createPerson, deletePerson } from './actions/actions';
+import { getPeople, createPerson, deletePerson, updatePerson } from './actions/actions';
 
 type Person = {
   id: number;
@@ -114,14 +114,51 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ u
                         <p className="font-semibold text-slate-100 group-hover:text-cyan-300 transition-colors">{person.name}</p>
                         <p className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">{person.email}</p>
                       </div>
-                      <form action={async () => {
-                        'use server'
-                        await deletePerson(person.id)
-                      }} className="ml-4">
-                        <button className="px-4 py-2 bg-red-500/20 hover:bg-red-500/40 text-red-400 hover:text-red-300 font-semibold rounded-lg transition-all duration-300 border border-red-500/30 hover:border-red-500/60">
-                          ✕ Delete
-                        </button>
-                      </form>
+                      <div className="flex flex-col gap-3 ml-4 min-w-[220px]">
+                        <form action={async () => {
+                          'use server'
+                          await deletePerson(person.id)
+                        }}>
+                          <button className="w-full px-4 py-2 bg-red-500/20 hover:bg-red-500/40 text-red-400 hover:text-red-300 font-semibold rounded-lg transition-all duration-300 border border-red-500/30 hover:border-red-500/60">
+                            ✕ Delete
+                          </button>
+                        </form>
+                        <details className="rounded-lg border border-blue-500/20 bg-slate-950/80 p-3">
+                          <summary className="cursor-pointer text-sm font-semibold text-cyan-300">Edit Person</summary>
+                          <form action={async (formData) => {
+                            'use server'
+                            await updatePerson(person.id, {
+                              name: formData.get('name') as string,
+                              email: formData.get('email') as string,
+                            })
+                          }} className="mt-4 space-y-3">
+                            <div>
+                              <label htmlFor={`name-${person.id}`} className="text-xs text-slate-400">Name</label>
+                              <input
+                                id={`name-${person.id}`}
+                                name="name"
+                                defaultValue={person.name}
+                                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                                required
+                              />
+                            </div>
+                            <div>
+                              <label htmlFor={`email-${person.id}`} className="text-xs text-slate-400">Email</label>
+                              <input
+                                id={`email-${person.id}`}
+                                name="email"
+                                type="email"
+                                defaultValue={person.email}
+                                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                                required
+                              />
+                            </div>
+                            <button type="submit" className="w-full px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-200 font-semibold rounded-lg border border-cyan-500/30 transition-all duration-300">
+                              Save Changes
+                            </button>
+                          </form>
+                        </details>
+                      </div>
                     </li>
                   ))}
                 </ul>
