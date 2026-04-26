@@ -2,7 +2,7 @@
 'use client'
 
 import Link from 'next/link';
-import { Search, Moon, Sun } from 'lucide-react';
+import { Search, Moon, Sun, Github, Database } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Button } from "@/components/ui/button";
 
@@ -28,6 +28,16 @@ export default function Navbar() {
             </Link>
             <Link href="/about" className="text-slate-300 hover:text-cyan-400 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20 relative group">
               About
+              <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
+            </Link>
+            <Link href="/database" className="text-slate-300 hover:text-cyan-400 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20 relative group">
+              <Database className="h-4 w-4 inline mr-1" />
+              Database
+              <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
+            </Link>
+            <Link href="/github" className="text-slate-300 hover:text-cyan-400 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20 relative group">
+              <Github className="h-4 w-4 inline mr-1" />
+              GitHub
               <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
             </Link>
             <Button
