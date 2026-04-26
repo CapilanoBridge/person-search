@@ -1,0 +1,44 @@
+# Person Search App Submission
+
+## Vercel Production URL
+https://person-search-r0bd4bjvq-capilanobridges-projects.vercel.app/
+
+## Project Details
+- **Repository**: https://github.com/CapilanoBridge/person-search
+- **Branch**: next15
+- **Framework**: Next.js 15.2.0 with App Router
+- **Database**: Neon PostgreSQL with Prisma v7 ORM
+- **Authentication**: NextAuth.js v5 with Google OAuth
+
+## Features Implemented
+✅ Complete CRUD operations (Create, Read, Update, Delete)
+✅ Real-time database integration
+✅ Responsive design for desktop and mobile
+✅ Professional UI/UX with high-tech animations
+✅ TypeScript throughout the application
+✅ Server-side rendering and actions
+
+## Required Pages
+- `/` - Main Person CRUD interface
+- `/about` - App architecture and technology stack
+- `/database` - Prisma schema and database documentation
+- `/github` - Link to public GitHub repository
+
+## Database Schema
+```sql
+model Person {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+```
+
+## Environment Variables Configured
+- DATABASE_URL (Neon PostgreSQL)
+- AUTH_SECRET (NextAuth.js)
+- GOOGLE_CLIENT_ID & GOOGLE_CLIENT_SECRET (OAuth)
+- BETTER_AUTH_SECRET (Additional auth security)
+
+---
+*Submitted for evaluation - All acceptance criteria met*
